@@ -27,3 +27,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# Private Backup Service Key
+backup_service.txt
