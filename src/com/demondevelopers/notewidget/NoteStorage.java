@@ -64,7 +64,7 @@ public final class NoteStorage
 	public static Uri insertNote(Context context, int appWidgetId, String text)
 	{
 		ContentValues values = new ContentValues(2);
-		values.put(Columns._ID, appWidgetId);
+		values.put(Columns._ID,  Integer.valueOf(appWidgetId));
 		values.put(Columns.NOTE, text);
 		
 		return context.getContentResolver()

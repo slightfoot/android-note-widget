@@ -2,7 +2,7 @@
 <resources>
 	
 	<string name="app_name">Note Widget</string>
+	
 	<string name="note_text">Note Text</string>
-	<string name="note_update">Update</string>
 	
 </resources>
