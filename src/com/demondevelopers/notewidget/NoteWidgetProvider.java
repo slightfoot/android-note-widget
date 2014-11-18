@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Selection;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.SparseArray;
@@ -25,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -53,7 +55,6 @@ public class NoteWidgetProvider extends AppWidgetProvider
 		onUpdate(context, appWidgetManager, new int[] { appWidgetId });
 	}
 	
-	@SuppressLint("NewApi")
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
@@ -119,14 +120,14 @@ public class NoteWidgetProvider extends AppWidgetProvider
 			height = mHeights.get(appWidgetId);
 		}
 		
-		TextView view = (TextView)mWidgetViews.get(appWidgetId);
+		EditText view = (EditText)mWidgetViews.get(appWidgetId);
 		if(view == null){
 			view = createNoteView(context);
 			mWidgetViews.put(appWidgetId, view);
 		}
 		view.setLayoutParams(new LayoutParams(width, height));
 		
-		String text   = NoteStorage.getNote(context, appWidgetId);
+		String text = NoteStorage.getNote(context, appWidgetId);
 		applyNoteViewAttrs(context, view, text);
 		view.setTextColor(Color.WHITE);
 		
@@ -165,9 +166,10 @@ public class NoteWidgetProvider extends AppWidgetProvider
 		}
 	}
 	
-	private TextView createNoteView(Context context)
+	@SuppressLint("InflateParams")
+	private EditText createNoteView(Context context)
 	{
-		TextView view = (TextView)LayoutInflater.from(getViewContext(context))
+		EditText view = (EditText)LayoutInflater.from(getViewContext(context))
 			.inflate(R.layout.note_view, null, false);
 		view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 		view.setDrawingCacheEnabled(true);
@@ -175,7 +177,7 @@ public class NoteWidgetProvider extends AppWidgetProvider
 	}
 	
 	@SuppressLint("InlinedApi")
-	public static TextView applyNoteViewAttrs(Context context, TextView note, CharSequence text)
+	public static TextView applyNoteViewAttrs(Context context, EditText note, CharSequence text)
 	{
 		TextPaint paint = note.getPaint();
 		paint.setFlags(TextPaint.LINEAR_TEXT_FLAG | TextPaint.ANTI_ALIAS_FLAG | TextPaint.SUBPIXEL_TEXT_FLAG);
@@ -184,6 +186,7 @@ public class NoteWidgetProvider extends AppWidgetProvider
 		}
 		note.setTypeface(Typeface.createFromAsset(context.getAssets(), "comic.ttf"));
 		note.setText(text);
+		Selection.removeSelection(note.getText());
 		return note;
 	}
 	

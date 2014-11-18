@@ -4,7 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -14,10 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.GridView;
-import android.widget.TextView;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -89,13 +90,13 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 		@Override
 		public void bindView(View view, Context context, Cursor cursor)
 		{
-			TextView note = (TextView)view.findViewById(R.id.note);
+			EditText note = (EditText)view.findViewById(R.id.note);
 			NoteWidgetProvider.applyNoteViewAttrs(context, note, 
 				cursor.getString(cursor.getColumnIndex(NoteStorage.Columns.NOTE)));
-			note.setTag(R.id.app_widget_id, 
-				cursor.getInt(cursor.getColumnIndex(NoteStorage.Columns._ID)));
+			note.setTag(R.id.app_widget_id, Integer.valueOf(cursor.getInt(
+					cursor.getColumnIndex(NoteStorage.Columns._ID))));
 			note.setOnClickListener(this);
-			note.setTextColor(Color.WHITE);
+			note.setKeyListener(null);
 		}
 		
 		@Override
@@ -105,6 +106,13 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 			Intent intent = new Intent(context, ConfigActivity.class)
 				.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 
 					(Integer)v.getTag(R.id.app_widget_id));
+			
+			final int[] location = new int[2];
+			v.getLocationOnScreen(location);
+			final Rect rect = new Rect(location[0], location[1],
+				location[0] + v.getWidth(), location[1] + v.getHeight());
+			intent.setSourceBounds(rect);
+			
 			context.startActivity(intent);
 		}
 		
