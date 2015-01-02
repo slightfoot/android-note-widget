@@ -1,5 +1,7 @@
 package com.demondevelopers.notewidget;
 
+import android.content.res.Configuration;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -93,8 +95,13 @@ public class NoteWidgetProvider extends AppWidgetProvider
 		int width, height;
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
 			Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
-			width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-			height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+			if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+				width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+				height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+			}else{
+				width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+				height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+			}
 		}
 		else{
 			AppWidgetProviderInfo info = appWidgetManager.getAppWidgetInfo(appWidgetId);
