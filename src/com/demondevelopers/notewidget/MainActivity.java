@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 		public void bindView(View view, Context context, Cursor cursor)
 		{
 			EditText note = (EditText)view.findViewById(R.id.note);
-			NoteWidgetProvider.applyNoteViewAttrs(context, note, 
+			NoteWidgetService.applyNoteViewAttrs(context, note, 
 				cursor.getString(cursor.getColumnIndex(NoteStorage.Columns.NOTE)));
 			note.setTag(R.id.app_widget_id, Integer.valueOf(cursor.getInt(
 					cursor.getColumnIndex(NoteStorage.Columns._ID))));

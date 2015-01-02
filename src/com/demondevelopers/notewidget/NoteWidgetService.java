@@ -110,6 +110,14 @@ public class NoteWidgetService extends AppWidgetService
 		saveWidgetsToDisk();
 	}
 	
+	public static void forceWidgetUpdate(Context context, int appWidgetId)
+	{
+		context.sendBroadcast(new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+			.setPackage(context.getPackageName())
+			.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {
+				appWidgetId
+			}));
+	}
 	
 	@SuppressLint("NewApi")
 	private void updateWidget(int appWidgetId)
@@ -125,7 +133,7 @@ public class NoteWidgetService extends AppWidgetService
 		noteWidget.view.setLayoutParams(lp);
 		
 		String text = NoteStorage.getNote(this, appWidgetId);
-		applyNoteViewAttrs(noteWidget.view, text);
+		applyNoteViewAttrs(this, noteWidget.view, text);
 		noteWidget.view.setTextColor(Color.WHITE);
 		
 		RemoteViews views = new RemoteViews(getPackageName(), R.layout.appwidget_note);
@@ -184,11 +192,11 @@ public class NoteWidgetService extends AppWidgetService
 		return noteView;
 	}
 	
-	public TextView applyNoteViewAttrs(EditText noteView, CharSequence text)
+	public static TextView applyNoteViewAttrs(Context context, EditText noteView, CharSequence text)
 	{
 		TextPaint paint = noteView.getPaint();
 		paint.setFlags(TextPaint.ANTI_ALIAS_FLAG);
-		noteView.setTypeface(Typeface.createFromAsset(getAssets(), "comic.ttf"));
+		noteView.setTypeface(Typeface.createFromAsset(context.getAssets(), "comic.ttf"));
 		noteView.setText(text);
 		Selection.removeSelection(noteView.getText());
 		return noteView;
@@ -313,7 +321,7 @@ public class NoteWidgetService extends AppWidgetService
 		}
 	}
 	
-	public static class NoteWidgetProvider extends Provider
+	public static class Provider extends AppWidgetProvider
 	{
 		@Override
 		public Class<?> getAppWidgetService()

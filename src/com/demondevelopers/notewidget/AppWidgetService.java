@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -73,7 +72,7 @@ public abstract class AppWidgetService extends Service
 	}
 	
 	
-	protected static abstract class Provider extends AppWidgetProvider
+	protected static abstract class AppWidgetProvider extends android.appwidget.AppWidgetProvider
 	{
 		public abstract Class<?> getAppWidgetService();
 		

@@ -65,7 +65,7 @@ public class ConfigActivity extends Activity
 		mNoteText = (EditText)findViewById(R.id.note_text);
 		
 		if(savedInstanceState == null){
-			NoteWidgetProvider.applyNoteViewAttrs(this, mNoteText, 
+			NoteWidgetService.applyNoteViewAttrs(this, mNoteText, 
 				NoteStorage.getNote(this, mAppWidgetId));
 		}
 		
@@ -113,7 +113,7 @@ public class ConfigActivity extends Activity
 					@Override
 					public void onAnimationEnd(Animator animation)
 					{
-						NoteWidgetProvider.forceWidgetUpdate(ConfigActivity.this, mAppWidgetId);
+						NoteWidgetService.forceWidgetUpdate(ConfigActivity.this, mAppWidgetId);
 						setResultAndFinish();
 					}
 				});
@@ -131,7 +131,7 @@ public class ConfigActivity extends Activity
 	{
 		NoteStorage.putNote(this, mAppWidgetId, mNoteText.getText().toString());
 		if(!animateClosed()){
-			NoteWidgetProvider.forceWidgetUpdate(this, mAppWidgetId);
+			NoteWidgetService.forceWidgetUpdate(this, mAppWidgetId);
 			setResultAndFinish();
 		}
 	}
