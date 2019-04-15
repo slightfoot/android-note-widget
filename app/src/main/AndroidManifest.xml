@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.demondevelopers.notewidget"
-	android:versionCode="1"
-	android:versionName="1.0"
+	package="london.devangels.notewidget"
 	>
-	
-	<uses-sdk
-		android:minSdkVersion="8" 
-		android:targetSdkVersion="21"
-		/>
-	
+
 	<application
 		android:allowBackup="false"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/AppTheme"
 		android:supportsRtl="true"
-		tools:ignore="UnusedAttribute"
+		android:theme="@style/AppTheme"
+		tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
 		>
-		
+
 		<activity
-			android:name="com.demondevelopers.notewidget.MainActivity"
+			android:name=".MainActivity"
 			android:label="@string/app_name"
 			>
 			<intent-filter>
@@ -29,20 +22,21 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<activity
-			android:name="com.demondevelopers.notewidget.ConfigActivity"
-			android:label="@string/app_name" android:theme="@style/AppTheme.Config"
+			android:name=".ConfigActivity"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme.Config"
 			android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
 			>
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
 			</intent-filter>
 		</activity>
-		
-		<service  android:name="com.demondevelopers.notewidget.NoteWidgetService" />
-		
-		<receiver android:name="com.demondevelopers.notewidget.NoteWidgetService$Provider">
+
+		<service  android:name=".NoteWidgetService" />
+
+		<receiver android:name=".NoteWidgetService$Provider">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
@@ -51,13 +45,13 @@
 				android:resource="@xml/appwidget_note"
 				/>
 		</receiver>
-		
+
 		<provider
-			android:name="com.demondevelopers.notewidget.NoteStorage$Provider"
-			android:authorities="com.demondevelopers.notewidget.store"
+			android:name=".NoteStorage$Provider"
+			android:authorities="${applicationId}.store"
 			android:exported="false"
 			/>
-		
+
 	</application>
-	
+
 </manifest>

@@ -1,4 +1,4 @@
-package com.demondevelopers.notewidget;
+package london.devangels.notewidget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -90,7 +90,7 @@ public class MainActivity extends FragmentActivity implements LoaderCallbacks<Cu
 		@Override
 		public void bindView(View view, Context context, Cursor cursor)
 		{
-			EditText note = (EditText)view.findViewById(R.id.note);
+			EditText note = view.findViewById(R.id.note);
 			NoteWidgetService.applyNoteViewAttrs(context, note, 
 				cursor.getString(cursor.getColumnIndex(NoteStorage.Columns.NOTE)));
 			note.setTag(R.id.app_widget_id, Integer.valueOf(cursor.getInt(

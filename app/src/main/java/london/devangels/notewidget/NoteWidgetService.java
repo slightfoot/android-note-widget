@@ -1,4 +1,4 @@
-package com.demondevelopers.notewidget;
+package london.devangels.notewidget;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,13 +21,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.graphics.Typeface;
 import android.text.Selection;
 import android.text.TextPaint;
-import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.content.pm.ApplicationInfo;
@@ -139,9 +136,7 @@ public class NoteWidgetService extends AppWidgetService
 		RemoteViews views = new RemoteViews(getPackageName(), R.layout.appwidget_note);
 		Bitmap viewImage = getViewImage(noteWidget.view);
 		views.setImageViewBitmap(R.id.appwidget_note, viewImage);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1){
-			views.setContentDescription(R.id.appwidget_note, text);
-		}
+		views.setContentDescription(R.id.appwidget_note, text);
 		
 		Intent configIntent =  new Intent(this, ConfigActivity.class)
 			.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
@@ -158,22 +153,14 @@ public class NoteWidgetService extends AppWidgetService
 	{
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		int width, height;
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-			Bundle options = getAppWidgetManager().getAppWidgetOptions(appWidgetId);
-			if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-				width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-				height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-			}else{
-				width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-				height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-			}
+		Bundle options = getAppWidgetManager().getAppWidgetOptions(appWidgetId);
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+			width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+			height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+		}else{
+			width  = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+			height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 		}
-		else{
-			AppWidgetProviderInfo info = getAppWidgetManager().getAppWidgetInfo(appWidgetId);
-			width  = info.minWidth;
-			height = info.minHeight;
-		}
-		
 		NoteWidget noteWidget = getNoteWidgetForId(appWidgetId);
 		noteWidget.width = (int)TypedValue
 			.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, metrics);
@@ -192,14 +179,13 @@ public class NoteWidgetService extends AppWidgetService
 		return noteView;
 	}
 	
-	public static TextView applyNoteViewAttrs(Context context, EditText noteView, CharSequence text)
+	public static void applyNoteViewAttrs(Context context, EditText noteView, CharSequence text)
 	{
 		TextPaint paint = noteView.getPaint();
 		paint.setFlags(TextPaint.ANTI_ALIAS_FLAG);
 		noteView.setTypeface(Typeface.createFromAsset(context.getAssets(), "comic.ttf"));
 		noteView.setText(text);
 		Selection.removeSelection(noteView.getText());
-		return noteView;
 	}
 	
 	public Bitmap getViewImage(View view)

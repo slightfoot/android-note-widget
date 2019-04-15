@@ -1,4 +1,4 @@
-package com.demondevelopers.notewidget;
+package london.devangels.notewidget;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -62,7 +62,7 @@ public class ConfigActivity extends Activity
 		
 		mTransitionTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 		
-		mNoteText = (EditText)findViewById(R.id.note_text);
+		mNoteText = findViewById(R.id.note_text);
 		
 		if(savedInstanceState == null){
 			NoteWidgetService.applyNoteViewAttrs(this, mNoteText, 
@@ -79,49 +79,43 @@ public class ConfigActivity extends Activity
 	{
 		Rect sourceBounds = getIntent().getSourceBounds();
 		if(sourceBounds != null && !sourceBounds.isEmpty()){
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-				AnimateChangeBounds changeBounds = AnimateChangeBounds.startFromScreen(mNoteText, sourceBounds);
-				changeBounds.setAnimatorListener(new AnimatorListenerAdapter()
+			AnimateChangeBounds changeBounds = AnimateChangeBounds.startFromScreen(mNoteText, sourceBounds);
+			changeBounds.setAnimatorListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationStart(Animator animation)
 				{
-					@Override
-					public void onAnimationStart(Animator animation)
-					{
-						blankAppWidget(mAppWidgetId);
-					}
-				});
-				mWindowDrawable = new TransitionDrawable(new Drawable[] {
-					new ColorDrawable(Color.TRANSPARENT),
-					new ColorDrawable(getResources().getColor(R.color.note_list_bg))
-				});
-				getWindow().setBackgroundDrawable(mWindowDrawable);
-				mWindowDrawable.setCrossFadeEnabled(true);
-				mWindowDrawable.startTransition(mTransitionTime);
-				return true;
-			}
+					blankAppWidget(mAppWidgetId);
+				}
+			});
+			mWindowDrawable = new TransitionDrawable(new Drawable[] {
+				new ColorDrawable(Color.TRANSPARENT),
+				new ColorDrawable(getResources().getColor(R.color.note_list_bg))
+			});
+			getWindow().setBackgroundDrawable(mWindowDrawable);
+			mWindowDrawable.setCrossFadeEnabled(true);
+			mWindowDrawable.startTransition(mTransitionTime);
+			return true;
 		}
 		return false;
 	}
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+
 	private boolean animateClosed()
 	{
 		Rect sourceBounds = getIntent().getSourceBounds();
 		if(sourceBounds != null && !sourceBounds.isEmpty()){
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-				AnimateChangeBounds changeBounds = AnimateChangeBounds.endAtScreen(mNoteText, sourceBounds);
-				changeBounds.setAnimatorListener(new AnimatorListenerAdapter(){
-					@Override
-					public void onAnimationEnd(Animator animation)
-					{
-						NoteWidgetService.forceWidgetUpdate(ConfigActivity.this, mAppWidgetId);
-						setResultAndFinish();
-					}
-				});
-				if(mWindowDrawable != null){
-					mWindowDrawable.reverseTransition(mTransitionTime);
+			AnimateChangeBounds changeBounds = AnimateChangeBounds.endAtScreen(mNoteText, sourceBounds);
+			changeBounds.setAnimatorListener(new AnimatorListenerAdapter(){
+				@Override
+				public void onAnimationEnd(Animator animation)
+				{
+					NoteWidgetService.forceWidgetUpdate(ConfigActivity.this, mAppWidgetId);
+					setResultAndFinish();
 				}
-				return true;
+			});
+			if(mWindowDrawable != null){
+				mWindowDrawable.reverseTransition(mTransitionTime);
 			}
+			return true;
 		}
 		return false;
 	}

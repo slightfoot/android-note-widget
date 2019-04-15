@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EditText xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/note"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:padding="@dimen/appwidget_note_padding"
-	android:textSize="@dimen/appwidget_note_fontsize"
-	android:textColor="@android:color/white"
 	android:background="@color/appwidget_note_bg"
-	android:hint="@string/note_text"
 	android:gravity="start|top"
-	/><!-- style="?android:attr/textViewStyle" -->
+	android:hint="@string/note_text"
+	android:inputType="text"
+	android:padding="@dimen/appwidget_note_padding"
+	android:textColor="@android:color/white"
+	android:textSize="@dimen/appwidget_note_fontsize"
+	tools:ignore="Autofill"
+	/>

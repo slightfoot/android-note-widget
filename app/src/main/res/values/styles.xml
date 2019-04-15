@@ -1,21 +1,27 @@
 <resources>
-	
+
 	<style name="AppBaseTheme" parent="@android:style/android:Theme.Light">
-		
+
 	</style>
-	
+
 	<style name="AppTheme" parent="AppBaseTheme">
-		
+
 	</style>
-	
-	<style name="AppTheme.Config">
+
+	<style name="BaseAppThemeConfig">
 		<item name="android:colorBackgroundCacheHint">@null</item>
-		<item name="android:windowBackground">@drawable/window_bg</item>
+		<item name="android:windowBackground">@android:color/transparent</item>
 		<item name="android:windowAnimationStyle">@null</item>
 		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowIsFloating">false</item>
 		<item name="android:windowIsTranslucent">true</item>
 		<item name="android:windowDisablePreview">true</item>
 		<item name="android:windowNoTitle">true</item>
+		<item name="android:backgroundDimEnabled">false</item>
 	</style>
-	
+
+	<style name="AppTheme.Config" parent="BaseAppThemeConfig">
+
+	</style>
+
 </resources>

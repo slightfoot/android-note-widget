@@ -27,6 +27,7 @@ proguard/
 *.ipr
 *.iws
 .idea/
+.gradle/
 
 # Private Backup Service Key
 backup_service.txt

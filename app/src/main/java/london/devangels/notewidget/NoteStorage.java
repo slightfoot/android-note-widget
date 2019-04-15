@@ -1,4 +1,4 @@
-package com.demondevelopers.notewidget;
+package london.devangels.notewidget;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -88,14 +88,14 @@ public final class NoteStorage
 	}
 	
 	
-	public static interface Columns extends BaseColumns
+	public interface Columns extends BaseColumns
 	{
-		public static final String NOTE = "note";
+		String NOTE = "note";
 	}
 	
 	public static class Provider extends ContentProvider
 	{
-		private static final String AUTHORITY   = "com.demondevelopers.notewidget.store";
+		private static final String AUTHORITY   = BuildConfig.APPLICATION_ID + ".store";
 		private static final Uri    CONTENT_URI = new Uri.Builder()
 			.scheme(ContentResolver.SCHEME_CONTENT)
 			.authority(AUTHORITY)

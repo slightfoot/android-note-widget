@@ -1,4 +1,4 @@
-package com.demondevelopers.notewidget;
+package london.devangels.notewidget;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
